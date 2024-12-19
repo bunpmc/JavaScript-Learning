@@ -8,6 +8,8 @@
 
 //"Hey when you done, call this function"
 
+//setInterval() là một phương thức trong JavaScript giúp chúng ta thực thi một hàm lặp đi lặp lại sau một khoảng thời gian cố định.
+
 sum(displayPage, 1, 2);
 
 function sum(callback, a, b) {
