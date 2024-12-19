@@ -127,3 +127,80 @@ function isGreaterThanFive(num) {
 
 console.log(filterArray([1, 2, 3, 4, 5, 6, 7, 8], isEven)); // [2, 4, 6, 8]
 console.log(filterArray([1, 2, 3, 4, 5, 6, 7, 8], greaterThanFive)); // [6, 7, 8]
+
+//6. Xu ly loi voi Callback
+
+function processData(data, successCallback, errorCallback) {
+  if (data) {
+    successCallback(data);
+  } else {
+    errorCallback("No data provided");
+  }
+}
+
+function onSuccess(data) {
+  console.log("Data processed successfully: ", data);
+}
+
+function onError(error) {
+  console.log("Error: ", error);
+}
+
+processData(null, onSuccess, onError);
+processData("Some data", onSuccess, onError);
+
+//7. Callback long nhau
+
+function fetchData(api, processCallback, displayCallback) {
+  console.log(`Fetching data from ${api}...`);
+
+  setTimeout(() => {
+    const object = {
+      id: 1,
+      name: "John Doe",
+      age: 30,
+    };
+    console.log("Data fetched: ", object);
+    const processData = processCallback(data);
+    displayCallback(processData);
+  }, 1000);
+}
+
+function process(data) {
+  data.createdDate = new Date();
+  return data;
+}
+
+function display(data) {
+  console.log("Data processed: ", data);
+}
+
+fetchData("https://api.example.com/data", process, display);
+
+//8. Xay dung he thong xu ly Callback voi Loi
+
+function fetchDataWithError(api, processCallback, displayCallback) {
+  console.log(`Fetching data from ${api}...`);
+
+  setTimeout(() => {
+    const error = Math.random() > 2;
+    if (error) {
+      errorCallback("Failed to fetch data");
+    } else {
+      const object = {
+        id: 1,
+        name: "John Doe",
+        age: 30,
+      };
+      console.log("Data fetched: ", object);
+      const processData = processCallback(data);
+      displayCallback(processData);
+    }
+  }, 1000);
+}
+
+function onError(error) {
+  console.log("Error: ", error);
+}
+
+fetchDataWithError("https://api.example.com/data", process, display);
