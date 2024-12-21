@@ -1,75 +1,53 @@
-//callback = a function that is passed as an argument to another function
-
-//Use to handle asynchronous operations:
-//
-//1. Fetch data from an API
-//2. Reading a file
-//3. Interact with a database
-
-//"Hey when you done, call this function"
-
-//setInterval() là một phương thức trong JavaScript giúp chúng ta thực thi một hàm lặp đi lặp lại sau một khoảng thời gian cố định.
-
-sum(displayPage, 1, 2);
-
+// 1. Callback Example
 function sum(callback, a, b) {
   let result = a + b;
   callback(result);
 }
 
 function display(result) {
-  console.log(result);
+  console.log("Sum Result:", result);
 }
 
 function displayPage(result) {
-  //document.getElementsByTagName("h1")[0].innerHTML = result;
+  // Assuming you have an element with id="myH1" in your HTML
   document.getElementById("myH1").innerHTML = result;
 }
 
+sum(displayPage, 1, 2);
+
 //-------------------------//
-//Exercise 1: Simple Callback
-//Problem
-//The first step in our journey through callbacks in JavaScript is learning to convert a string to uppercase using a callback.
-//This simple yet effective exercise introduces us to the concept of passing functions as arguments and helps us understand the power of higher-order functions.
 
-//Solution
-
+// 2. Simple Callback: Convert string to uppercase
 function toUpperCase(str, callback) {
   callback(str.toUpperCase());
 }
 
-function input() {
-  return str;
-}
-
 function output(str) {
-  document.getElementById("myH1").innerHTML = str;
+  console.log("Uppercase String:", str); // Logging for simplicity
+  // Alternatively, display in HTML element
+  // document.getElementById("myH1").innerHTML = str;
 }
 
-toUpperCase(input, output);
+toUpperCase("hello world", output);
 
-//Exercise 2: Callback with Array
-//Problem
-//Now, let’s move to an exercise involving arrays and callbacks. Our goal is to apply a callback to every element of an array.
-//This exercise helps us understand how callbacks can be used to manipulate and interact with complex data structures like arrays.
+//-------------------------//
 
+// 3. Callback with Array
 function forEachElement(arr, callback) {
   for (let i = 0; i < arr.length; i++) {
     callback(arr[i]);
   }
 }
 
-function output(str) {
-  document.getElementById("myH1").innerHTML = str;
+function logElement(element) {
+  console.log("Array Element:", element);
 }
 
-forEachElement(["a", "b", "c"], output);
+forEachElement(["a", "b", "c"], logElement);
 
-//Exercise 3: Asynchronous Callback
-//Problem
-//Asynchronicity is a cornerstone of JavaScript programming, especially in the context of network requests.
-//In this exercise, we focus on how to simulate a network request and handle the response using a callback. This scenario is essential for understanding how JavaScript handles time-consuming operations, such as HTTP requests or reading files.
+//-------------------------//
 
+// 4. Asynchronous Callback
 function asyncFunction(callback) {
   console.log("Starting operation...");
 
@@ -86,8 +64,9 @@ function finish() {
 
 asyncFunction(finish);
 
-//4. Calculate using callback
+//-------------------------//
 
+// 5. Calculate using callback
 function calculate(a, b, callback) {
   return callback(a, b);
 }
@@ -100,12 +79,13 @@ function multiply(x, y) {
   return x * y;
 }
 
-console.log(calculate(2, 3, add));
-console.log(calculate(2, 3, multiply));
+console.log("Add:", calculate(2, 3, add));
+console.log("Multiply:", calculate(2, 3, multiply));
 
-//5. Array with Callback
+//-------------------------//
 
-function filter(array, callback) {
+// 6. Array with Callback
+function filterArray(array, callback) {
   const result = [];
   for (let item of array) {
     if (callback(item)) {
@@ -116,22 +96,26 @@ function filter(array, callback) {
 }
 
 function isOdd(num) {
-  return num % 2 != 0;
+  return num % 2 !== 0;
 }
 
 function isEven(num) {
-  return num % 2 == 0;
+  return num % 2 === 0;
 }
 
 function isGreaterThanFive(num) {
   return num > 5;
 }
 
-console.log(filterArray([1, 2, 3, 4, 5, 6, 7, 8], isEven)); // [2, 4, 6, 8]
-console.log(filterArray([1, 2, 3, 4, 5, 6, 7, 8], greaterThanFive)); // [6, 7, 8]
+console.log("Even Numbers:", filterArray([1, 2, 3, 4, 5, 6, 7, 8], isEven));
+console.log(
+  "Numbers Greater than 5:",
+  filterArray([1, 2, 3, 4, 5, 6, 7, 8], isGreaterThanFive)
+);
 
-//6. Xu ly loi voi Callback
+//-------------------------//
 
+// 7. Handling Errors with Callback
 function processData(data, successCallback, errorCallback) {
   if (data) {
     successCallback(data);
@@ -141,18 +125,19 @@ function processData(data, successCallback, errorCallback) {
 }
 
 function onSuccess(data) {
-  console.log("Data processed successfully: ", data);
+  console.log("Data processed successfully:", data);
 }
 
 function onError(error) {
-  console.log("Error: ", error);
+  console.log("Error:", error);
 }
 
 processData(null, onSuccess, onError);
 processData("Some data", onSuccess, onError);
 
-//7. Callback long nhau
+//-------------------------//
 
+// 8. Nested Callbacks
 function fetchData(api, processCallback, displayCallback) {
   console.log(`Fetching data from ${api}...`);
 
@@ -162,9 +147,9 @@ function fetchData(api, processCallback, displayCallback) {
       name: "John Doe",
       age: 30,
     };
-    console.log("Data fetched: ", object);
-    const processData = processCallback(data);
-    displayCallback(processData);
+    console.log("Data fetched:", object);
+    const processedData = processCallback(object);
+    displayCallback(processedData);
   }, 1000);
 }
 
@@ -174,19 +159,25 @@ function process(data) {
 }
 
 function display(data) {
-  console.log("Data processed: ", data);
+  console.log("Data processed:", data);
 }
 
 fetchData("https://api.example.com/data", process, display);
 
-//8. Xay dung he thong xu ly Callback voi Loi
+//-------------------------//
 
-function fetchDataWithError(api, processCallback, displayCallback) {
+// 9. Error Handling with Callback
+function fetchDataWithError(
+  api,
+  processCallback,
+  displayCallback,
+  errorCallback
+) {
   console.log(`Fetching data from ${api}...`);
 
   setTimeout(() => {
-    const error = Math.random() > 2;
-    if (error) {
+    const isError = Math.random() > 0.5; // Simulate random error
+    if (isError) {
       errorCallback("Failed to fetch data");
     } else {
       const object = {
@@ -194,15 +185,11 @@ function fetchDataWithError(api, processCallback, displayCallback) {
         name: "John Doe",
         age: 30,
       };
-      console.log("Data fetched: ", object);
-      const processData = processCallback(data);
-      displayCallback(processData);
+      console.log("Data fetched:", object);
+      const processedData = processCallback(object);
+      displayCallback(processedData);
     }
   }, 1000);
 }
 
-function onError(error) {
-  console.log("Error: ", error);
-}
-
-fetchDataWithError("https://api.example.com/data", process, display);
+fetchDataWithError("https://api.example.com/data", process, display, onError);
